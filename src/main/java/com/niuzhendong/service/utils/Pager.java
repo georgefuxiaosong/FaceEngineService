@@ -1,8 +1,9 @@
 package com.niuzhendong.service.utils;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Pager<T> {
+public class Pager<T> implements Serializable {
     private int page;//分页起始页
     private int size;//每页记录数
     private List<T> rows;//返回的记录集合

@@ -7,6 +7,8 @@ import com.arcsoft.face.toolkit.ImageInfo;
 import com.niuzhendong.service.dto.Face;
 import com.niuzhendong.service.dto.FeatureItem;
 import com.niuzhendong.service.utils.Pager;
+import com.niuzhendong.service.vo.FaceVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ public interface FaceService {
 
     List<Face> getFaceInfo();
 
-    Pager<Face> getFaceList(int page,int size);
+    Pager<Face> getFaceList(int page, int size);
 
     List<Face> findFaceInfo(List<Long> ids);
 
@@ -33,4 +35,5 @@ public interface FaceService {
     void updateFace(Face face);
 
     void updateFaceStatus(List<Long> ids);
+
 }

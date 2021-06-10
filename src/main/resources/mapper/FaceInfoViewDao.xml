@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niuzhendong.service.dao.FaceInfoViewDao">
+
+    <insert id="saveFaceInfo" parameterType="com.niuzhendong.service.dto.Face">
+     replace into `face`.`face_regist_info`(id, peo_id, peo_name, status, peo_type, peo_des, bucket_name, file_name, `type`, feature, del_flag)
+     values(#{id}, #{peoId}, #{peoName}, #{status}, #{peoType}, #{peoDes}, #{bucketName}, #{fileName}, #{type}, #{feature}, #{delFlag})
+    </insert>
+
+    <select id="allPersonLabel" resultType="java.util.Map">
+        SELECT sec_label as label, sec_label_code as code
+        FROM face.person_label_info;
+    </select>
+</mapper>

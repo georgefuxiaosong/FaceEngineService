@@ -7,15 +7,19 @@ import com.arcsoft.face.ImageQuality;
 import com.arcsoft.face.toolkit.ImageInfo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.niuzhendong.service.dao.FaceDao;
 import com.niuzhendong.service.dto.Face;
 import com.niuzhendong.service.dto.FeatureItem;
 import com.niuzhendong.service.service.FaceService;
-import com.niuzhendong.service.utils.FaceUtils;
-import com.niuzhendong.service.utils.Pager;
+import com.niuzhendong.service.service.MinioService;
+import com.niuzhendong.service.utils.*;
+import com.niuzhendong.service.vo.FaceVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,12 +42,16 @@ public class FaceServiceImpl implements FaceService {
     }
 
     @Override
-    public Pager<Face> getFaceList(int page,int size) {
-        Pager<Face> pager = new Pager<Face>();
-        Page<Face> res = PageHelper.startPage(page,size);
-        faceDao.getFaceList();
-        pager.setRows(res.getResult());
+    public Pager<Face> getFaceList(int page, int size) {
+        PageHelper.startPage(page,size);
+        List<Face> faceRes= faceDao.getFaceList();
+        PageInfo<Face> res = new PageInfo<>(faceRes);
+        Pager<Face> pager = new Pager<>();
+        pager.setRows(res.getList());
         pager.setTotal(res.getTotal());
+        pager.setSize(size);
+        pager.setPage(page);
+
         return pager;
     }
 
@@ -86,6 +94,7 @@ public class FaceServiceImpl implements FaceService {
     public void updateFaceStatus(List<Long> ids) {
         faceDao.updateFaceStatus(ids);
     }
+
 
 
 }

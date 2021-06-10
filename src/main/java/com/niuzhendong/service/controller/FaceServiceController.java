@@ -11,21 +11,24 @@ import com.niuzhendong.service.dto.FeatureItem;
 import com.niuzhendong.service.service.FaceService;
 import com.niuzhendong.service.service.MilvusService;
 import com.niuzhendong.service.service.MinioService;
+import com.niuzhendong.service.utils.IDCardUtil;
+import com.niuzhendong.service.utils.Pager;
 import com.niuzhendong.service.utils.Result;
 import io.milvus.client.SearchResponse;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -41,6 +44,12 @@ public class FaceServiceController {
     @Autowired
     private MinioService minioService;
 
+    /**
+     * 根据传入的人脸图片url，返回前若干个比较以后最相似的人员信息
+     * @param url minio共享连接url
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     @RequestMapping(value = "/api/compareFaceFeature", method = RequestMethod.GET)
     public Result<List<CompareInfo>> compareFaceFeature(@RequestParam String url) throws UnsupportedEncodingException{
 
@@ -92,6 +101,12 @@ public class FaceServiceController {
     }
 
 
+    /**
+     * 根据传入的人脸图片url，返回一个比较以后最相似的人员信息
+     * @param url minio共享连接url
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     @RequestMapping(value = "/api/compareFaceFeatureForSingle", method = RequestMethod.GET)
     public Result<CompareInfo> compareFaceFeatureForSingle(@RequestParam String url) throws UnsupportedEncodingException {
 
@@ -187,4 +202,7 @@ public class FaceServiceController {
             return url;
         }
     }
+
+
+
 }

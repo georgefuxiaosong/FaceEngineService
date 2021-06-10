@@ -9,7 +9,7 @@ public class Face {
     private String peoName;
 
     private int status;
-    private int peoType;
+    private String peoType;
     private String peoDes;
 
     private String bucketName;
@@ -17,4 +17,6 @@ public class Face {
 
     private int type;
     private byte[] feature;
+
+    private int delFlag;
 }

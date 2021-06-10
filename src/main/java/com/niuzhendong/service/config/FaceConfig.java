@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.ResourceUtils;
+
+import java.io.FileNotFoundException;
 
 
 @Configuration
@@ -26,15 +29,16 @@ public class FaceConfig {
     @Bean
     public FaceEngine FaceEngine() {
         int errorCode = 0;
-        //String libPath = "D:\\git\\FaceEngineService\\libs\\WIN64";
-        String libPath = "/home/niuzhendong/git/service/libs/LINUX64";
-        /**
-         * try {
-         *             libPath = ResourceUtils.getURL("classpath:").getPath()+"WIN64";
-         *         } catch (FileNotFoundException e) {
-         *             e.printStackTrace();
-         *         }
-         */
+        String libPath = "E:\\company\\baiyunqu\\resource_code\\FaceEngineService\\libs\\WIN64";
+//        String libPath = "/home/niuzhendong/git/service/libs/LINUX64";
+
+//          try {
+//                      libPath = ResourceUtils.getURL("classpath:").getPath()+"WIN64";
+//                      libPath = ResourceUtils.getURL("classpath:").getPath()+ "LINUX64";
+//                  } catch (FileNotFoundException e) {
+//                      e.printStackTrace();
+//                  }
+
         FaceEngine faceEngine = new FaceEngine(libPath);
         if (faceProp.getActiveFile().equals(null) || faceProp.getActiveFile().equals("")) {
             errorCode = faceEngine.activeOnline(faceProp.getAppId(),faceProp.getSdkKey(),faceProp.getActiveKey());
