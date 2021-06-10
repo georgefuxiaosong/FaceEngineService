@@ -80,18 +80,16 @@ public class FaceInfoViewServiceImpl implements FaceInfoViewService {
         List<Map<String,String>> personLabelsList= faceInfoViewDao.allPersonLabel();//查询所有的人员类型标签
         Map personLabelsMap = personLabelsList.stream().collect(Collectors.toMap(p->p.get("code"),p->p.get("label")));
         for(Face face : faceRes){
-            List<String> personType = Arrays.asList(face.getPeoType().split(","));
+            List<String> personType = Arrays.asList((face.getPeoType()!=null ?face.getPeoType() : "") .split(","));
             List<Object> peoTypeList = personType.stream().map(item -> {
                 return personLabelsMap.get(item);
             }).collect(Collectors.toList());//人员类型列表
             String peoType = StringUtils.join(peoTypeList,",");//用逗号连接多个人员类型
             String facePicUrl = minioService.getUrlFromMinio(face.getBucketName(),face.getFileName());//人脸图像
-            String type = (face.getType()==0 || face.getType()==1) ? (face.getType()==0 ? "是":"否") : "未知";;//是否布控
-            String status = (face.getStatus()==0 || face.getStatus()==1) ? (face.getStatus()==0 ? "已提取":"未提取") : "未知";
             FaceVO faceVo = ConvertUtils.sourceToTarget(face, FaceVO.class);
             faceVo.setFacePic(facePicUrl);
-            faceVo.setStatus(status);
-            faceVo.setType(type);faceVo.setPeoType(peoType);
+            faceVo.setPeoType(peoType);
+            faceVo.setId(String.valueOf(face.getId()));
             faceVoList.add(faceVo);
         }
 
@@ -106,7 +104,21 @@ public class FaceInfoViewServiceImpl implements FaceInfoViewService {
 
     @Override
     public String editInfo(List<FaceVO> personInfos){
+        List<Map<String,String>> personLabelsList= faceInfoViewDao.allPersonLabel();//查询所有的人员类型标签
+        Map personLabelsMap = personLabelsList.stream().collect(Collectors.toMap(p->p.get("label"),p->p.get("code")));
+        for(FaceVO face : personInfos){
+            List<String> personType = Arrays.asList((face.getPeoType()!=null ?face.getPeoType() : "") .split(","));
+            List<Object> peoTypeList = personType.stream().map(item -> {
+                return personLabelsMap.get(item);
+            }).collect(Collectors.toList());//人员类型列表
+            String peoType = StringUtils.join(peoTypeList,",");//用逗号连接多个人员类型
 
+            Face faceDTO = ConvertUtils.sourceToTarget(face, Face.class);
+            faceDTO.setPeoType(peoType);
+             // TODO 如何防止有人更改身份证号后导致图片名字改变
+        }
+
+        faceInfoViewDao.editInfo(personInfos);
 
 
         return null;

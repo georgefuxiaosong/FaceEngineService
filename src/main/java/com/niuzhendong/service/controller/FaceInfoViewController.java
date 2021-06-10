@@ -8,10 +8,7 @@ import com.niuzhendong.service.utils.Result;
 import com.niuzhendong.service.vo.FaceVO;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -38,7 +35,7 @@ public class FaceInfoViewController {
      * 查询所有的人脸信息并进行展示
      */
     @RequestMapping(value = "/api/getFaceVOList", method = RequestMethod.GET)
-    public Pager<FaceVO> getFaceVOList(int page, int size){
+    public Pager<FaceVO> getFaceVOList(@RequestParam("page") int page, @RequestParam("size") int size){
 
         return faceInfoViewService.getFaceVOList(page, size);
     }

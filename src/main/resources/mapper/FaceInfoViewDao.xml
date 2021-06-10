@@ -11,4 +11,25 @@
         SELECT sec_label as label, sec_label_code as code
         FROM face.person_label_info;
     </select>
+    
+    <update id="editInfo" parameterType="com.niuzhendong.service.dto.Face">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE `face`.`face_regist_info`
+            <set>
+                <if test="item.peoId !=null">
+                    peo_id=#{item.peoId}
+                </if>
+                <if test="item.peoName!=null">
+                    peo_name=#{item.peoName}
+                </if>
+                <if test="item.peoType!=null">
+                    peo_type=#{item.peo_type}
+                </if>
+                <if test="item.type!=null">
+                    `type`=#{item.type}
+                </if>
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
 </mapper>
