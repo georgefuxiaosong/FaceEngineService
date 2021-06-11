@@ -6,12 +6,9 @@ import com.niuzhendong.service.utils.IDCardUtil;
 import com.niuzhendong.service.utils.Pager;
 import com.niuzhendong.service.utils.Result;
 import com.niuzhendong.service.vo.FaceVO;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -44,12 +41,25 @@ public class FaceInfoViewController {
      * 编辑/删除人脸信息
      */
     @RequestMapping(value = "/api/editInfo",method = RequestMethod.POST)
-    public Result<String> editInfo(List<FaceVO> personInfos){
+    public Result<String> editInfo(@RequestBody List<FaceVO> personInfos){
         if (personInfos == null || personInfos.size() == 0) {
             return new Result<String>().error(0,"请求参数为空");
         }
 
         return new Result<String>().ok(faceInfoViewService.editInfo(personInfos));
+
+    }
+
+    /**
+     * 删除
+     */
+    @RequestMapping(value = "/api/delFaceInfo",method = RequestMethod.POST)
+    public Result<String> delFaceInfo(@RequestBody List<String> ids){
+        if (ids == null || ids.size() == 0) {
+            return new Result<String>().error(0,"请求参数为空");
+        }
+
+        return new Result<String>().ok(faceInfoViewService.delFaceInfo(ids));
 
     }
 }

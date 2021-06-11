@@ -13,23 +13,31 @@
     </select>
     
     <update id="editInfo" parameterType="com.niuzhendong.service.dto.Face">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE `face`.`face_regist_info`
             <set>
-                <if test="item.peoId !=null">
-                    peo_id=#{item.peoId}
+                <if test="peoId !=null">
+                    peo_id=#{peoId},
                 </if>
-                <if test="item.peoName!=null">
-                    peo_name=#{item.peoName}
+                <if test="peoName!=null and peoName.trim()!=''">
+                     peo_name=#{peoName},
                 </if>
-                <if test="item.peoType!=null">
-                    peo_type=#{item.peo_type}
+                <if test="peoType!=null and peoType.trim()!=''">
+                    peo_type=#{peoType},
                 </if>
-                <if test="item.type!=null">
-                    `type`=#{item.type}
+                <if test="type!=null">
+                    type=#{type}
                 </if>
             </set>
-            where id = #{item.id}
+            where id = #{id}
+    </update>
+
+    <update id="delFaceInfo" parameterType="java.util.List">
+        UPDATE `face`.`face_regist_info`
+        SET
+        del_flag = 1
+        WHERE `id` IN
+        <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
+            #{id}
         </foreach>
     </update>
 </mapper>

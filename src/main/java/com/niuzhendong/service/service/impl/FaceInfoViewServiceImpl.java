@@ -115,13 +115,19 @@ public class FaceInfoViewServiceImpl implements FaceInfoViewService {
 
             Face faceDTO = ConvertUtils.sourceToTarget(face, Face.class);
             faceDTO.setPeoType(peoType);
-             // TODO 如何防止有人更改身份证号后导致图片名字改变
+            faceDTO.setId(Long.valueOf(face.getId()));// TODO 如何防止有人更改身份证号后导致图片名字改变
+            faceInfoViewDao.editInfo(faceDTO);
         }
 
-        faceInfoViewDao.editInfo(personInfos);
+        return "数据更新成功";
+    }
 
+    @Override
+    public String delFaceInfo(List<String> ids){
 
-        return null;
+        faceInfoViewDao.delFaceInfo(ids);
+
+        return "数据删除成功";
     }
 
 }

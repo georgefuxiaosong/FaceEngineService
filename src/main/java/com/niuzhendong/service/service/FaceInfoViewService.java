@@ -15,6 +15,8 @@ public interface FaceInfoViewService {
 
     String editInfo(List<FaceVO> personInfos);
 
+    String delFaceInfo(List<String> ids);
+
 
 
 }
