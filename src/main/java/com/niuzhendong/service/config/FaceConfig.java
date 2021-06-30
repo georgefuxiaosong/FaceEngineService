@@ -29,7 +29,7 @@ public class FaceConfig {
     @Bean
     public FaceEngine FaceEngine() {
         int errorCode = 0;
-        String libPath = "E:\\company\\baiyunqu\\resource_code\\FaceEngineService\\libs\\WIN64";
+        String libPath = "D:\\cetcbigdata\\智慧白云-融合分析\\FaceEngineService\\libs\\WIN64";
 //        String libPath = "/home/niuzhendong/git/service/libs/LINUX64";
 
 //          try {

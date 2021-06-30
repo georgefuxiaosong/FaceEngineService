@@ -9,7 +9,12 @@ import com.niuzhendong.service.vo.FaceVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class FaceInfoViewController {
@@ -25,7 +30,7 @@ public class FaceInfoViewController {
     @RequestMapping(value = "/api/uploadFacePic", method = RequestMethod.POST)
     public Result<String> uploadFacePic(@RequestPart("facePic") MultipartFile facePic){
 
-        return new Result<String>().ok(faceInfoViewService.uploadFacePic(facePic));
+        return faceInfoViewService.uploadFacePic(facePic);
     }
 
     /**
@@ -38,7 +43,7 @@ public class FaceInfoViewController {
     }
 
     /**
-     * 编辑/删除人脸信息
+     * 编辑人脸信息
      */
     @RequestMapping(value = "/api/editInfo",method = RequestMethod.POST)
     public Result<String> editInfo(@RequestBody List<FaceVO> personInfos){
@@ -46,7 +51,7 @@ public class FaceInfoViewController {
             return new Result<String>().error(0,"请求参数为空");
         }
 
-        return new Result<String>().ok(faceInfoViewService.editInfo(personInfos));
+        return faceInfoViewService.editInfo(personInfos);
 
     }
 
@@ -62,4 +67,16 @@ public class FaceInfoViewController {
         return new Result<String>().ok(faceInfoViewService.delFaceInfo(ids));
 
     }
+
+    /**
+     * 导出csv文件
+     */
+    @RequestMapping(value = "/api/exportCSV",method = RequestMethod.POST, produces = "application/json; charset=utf-8" )
+    public void exportCSV(@RequestBody List<LinkedHashMap<String, Object>> dataList, HttpServletRequest request, HttpServletResponse response){
+
+        faceInfoViewService.exportCSV(response,request,dataList);
+//        return new Result().ok();
+
+    }
+
 }
